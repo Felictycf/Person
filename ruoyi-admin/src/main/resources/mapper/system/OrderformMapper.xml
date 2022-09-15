@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.OrderformMapper">
+    
+    <resultMap type="Orderform" id="OrderformResult">
+        <result property="onum"    column="onum"    />
+        <result property="opeople"    column="opeople"    />
+        <result property="canzuohao"    column="canzuohao"    />
+        <result property="cotel"    column="cotel"    />
+        <result property="total"    column="total"    />
+        <result property="payment"    column="payment"    />
+        <result property="entry"    column="entry"    />
+        <result property="dingdanstate"    column="Dingdanstate"    />
+        <result property="tablecontext"    column="tablecontext"    />
+    </resultMap>
+
+    <sql id="selectOrderformVo">
+        select onum, opeople, canzuohao, cotel, total, payment, entry, Dingdanstate, tablecontext from orderform
+    </sql>
+
+    <select id="selectOrderformList" parameterType="Orderform" resultMap="OrderformResult">
+        <include refid="selectOrderformVo"/>
+        <where>  
+            <if test="opeople != null "> and opeople = #{opeople}</if>
+            <if test="canzuohao != null  and canzuohao != ''"> and canzuohao = #{canzuohao}</if>
+            <if test="cotel != null  and cotel != ''"> and cotel = #{cotel}</if>
+            <if test="total != null "> and total = #{total}</if>
+            <if test="payment != null "> and payment = #{payment}</if>
+            <if test="entry != null "> and entry = #{entry}</if>
+            <if test="dingdanstate != null  and dingdanstate != ''"> and Dingdanstate = #{dingdanstate}</if>
+            <if test="tablecontext != null  and tablecontext != ''"> and tablecontext = #{tablecontext}</if>
+        </where>
+    </select>
+    
+    <select id="selectOrderformByOnum" parameterType="String" resultMap="OrderformResult">
+        <include refid="selectOrderformVo"/>
+        where onum = #{onum}
+    </select>
+        
+    <insert id="insertOrderform" parameterType="Orderform">
+        insert into orderform
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="onum != null">onum,</if>
+            <if test="opeople != null">opeople,</if>
+            <if test="canzuohao != null">canzuohao,</if>
+            <if test="cotel != null">cotel,</if>
+            <if test="total != null">total,</if>
+            <if test="payment != null">payment,</if>
+            <if test="entry != null">entry,</if>
+            <if test="dingdanstate != null">Dingdanstate,</if>
+            <if test="tablecontext != null">tablecontext,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="onum != null">#{onum},</if>
+            <if test="opeople != null">#{opeople},</if>
+            <if test="canzuohao != null">#{canzuohao},</if>
+            <if test="cotel != null">#{cotel},</if>
+            <if test="total != null">#{total},</if>
+            <if test="payment != null">#{payment},</if>
+            <if test="entry != null">#{entry},</if>
+            <if test="dingdanstate != null">#{dingdanstate},</if>
+            <if test="tablecontext != null">#{tablecontext},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOrderform" parameterType="Orderform">
+        update orderform
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="opeople != null">opeople = #{opeople},</if>
+            <if test="canzuohao != null">canzuohao = #{canzuohao},</if>
+            <if test="cotel != null">cotel = #{cotel},</if>
+            <if test="total != null">total = #{total},</if>
+            <if test="payment != null">payment = #{payment},</if>
+            <if test="entry != null">entry = #{entry},</if>
+            <if test="dingdanstate != null">Dingdanstate = #{dingdanstate},</if>
+            <if test="tablecontext != null">tablecontext = #{tablecontext},</if>
+        </trim>
+        where onum = #{onum}
+    </update>
+
+    <delete id="deleteOrderformByOnum" parameterType="String">
+        delete from orderform where onum = #{onum}
+    </delete>
+
+    <delete id="deleteOrderformByOnums" parameterType="String">
+        delete from orderform where onum in 
+        <foreach item="onum" collection="array" open="(" separator="," close=")">
+            #{onum}
+        </foreach>
+    </delete>
+</mapper>

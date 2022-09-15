@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.RenshiINFOMapper">
+    
+    <resultMap type="RenshiINFO" id="RenshiINFOResult">
+        <result property="staffid"    column="staffID"    />
+        <result property="name"    column="Name"    />
+        <result property="sex"    column="Sex"    />
+        <result property="birth"    column="Birth"    />
+        <result property="birthplace"    column="Birthplace"    />
+        <result property="nation"    column="Nation"    />
+        <result property="homeAddr"    column="Home_addr"    />
+        <result property="telehone"    column="telehone"    />
+        <result property="email"    column="email"    />
+        <result property="schoolrecord"    column="schoolRecord"    />
+        <result property="departmentname"    column="departmentName"    />
+        <result property="worktime"    column="worktime"    />
+        <result property="enterdptdate"    column="enterdptdate"    />
+        <result property="post"    column="post"    />
+        <result property="political"    column="political"    />
+    </resultMap>
+
+    <sql id="selectRenshiINFOVo">
+        select staffID, Name, Sex, Birth, Birthplace, Nation, Home_addr, telehone, email, schoolRecord, departmentName, worktime, enterdptdate, post, political from renshiINFO
+    </sql>
+
+    <select id="selectRenshiINFOList" parameterType="RenshiINFO" resultMap="RenshiINFOResult">
+        <include refid="selectRenshiINFOVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and Name like concat('%', #{name}, '%')</if>
+            <if test="sex != null  and sex != ''"> and Sex = #{sex}</if>
+            <if test="birth != null "> and Birth = #{birth}</if>
+            <if test="birthplace != null  and birthplace != ''"> and Birthplace = #{birthplace}</if>
+            <if test="nation != null  and nation != ''"> and Nation = #{nation}</if>
+            <if test="homeAddr != null  and homeAddr != ''"> and Home_addr = #{homeAddr}</if>
+            <if test="telehone != null "> and telehone = #{telehone}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="schoolrecord != null  and schoolrecord != ''"> and schoolRecord = #{schoolrecord}</if>
+            <if test="departmentname != null  and departmentname != ''"> and departmentName like concat('%', #{departmentname}, '%')</if>
+            <if test="worktime != null "> and worktime = #{worktime}</if>
+            <if test="enterdptdate != null "> and enterdptdate = #{enterdptdate}</if>
+            <if test="post != null  and post != ''"> and post = #{post}</if>
+            <if test="political != null  and political != ''"> and political = #{political}</if>
+        </where>
+    </select>
+    
+    <select id="selectRenshiINFOByStaffid" parameterType="Long" resultMap="RenshiINFOResult">
+        <include refid="selectRenshiINFOVo"/>
+        where staffID = #{staffid}
+    </select>
+        
+    <insert id="insertRenshiINFO" parameterType="RenshiINFO" useGeneratedKeys="true" keyProperty="staffid">
+        insert into renshiINFO
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">Name,</if>
+            <if test="sex != null and sex != ''">Sex,</if>
+            <if test="birth != null">Birth,</if>
+            <if test="birthplace != null and birthplace != ''">Birthplace,</if>
+            <if test="nation != null and nation != ''">Nation,</if>
+            <if test="homeAddr != null and homeAddr != ''">Home_addr,</if>
+            <if test="telehone != null">telehone,</if>
+            <if test="email != null">email,</if>
+            <if test="schoolrecord != null">schoolRecord,</if>
+            <if test="departmentname != null">departmentName,</if>
+            <if test="worktime != null">worktime,</if>
+            <if test="enterdptdate != null">enterdptdate,</if>
+            <if test="post != null">post,</if>
+            <if test="political != null">political,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="sex != null and sex != ''">#{sex},</if>
+            <if test="birth != null">#{birth},</if>
+            <if test="birthplace != null and birthplace != ''">#{birthplace},</if>
+            <if test="nation != null and nation != ''">#{nation},</if>
+            <if test="homeAddr != null and homeAddr != ''">#{homeAddr},</if>
+            <if test="telehone != null">#{telehone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="schoolrecord != null">#{schoolrecord},</if>
+            <if test="departmentname != null">#{departmentname},</if>
+            <if test="worktime != null">#{worktime},</if>
+            <if test="enterdptdate != null">#{enterdptdate},</if>
+            <if test="post != null">#{post},</if>
+            <if test="political != null">#{political},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRenshiINFO" parameterType="RenshiINFO">
+        update renshiINFO
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">Name = #{name},</if>
+            <if test="sex != null and sex != ''">Sex = #{sex},</if>
+            <if test="birth != null">Birth = #{birth},</if>
+            <if test="birthplace != null and birthplace != ''">Birthplace = #{birthplace},</if>
+            <if test="nation != null and nation != ''">Nation = #{nation},</if>
+            <if test="homeAddr != null and homeAddr != ''">Home_addr = #{homeAddr},</if>
+            <if test="telehone != null">telehone = #{telehone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="schoolrecord != null">schoolRecord = #{schoolrecord},</if>
+            <if test="departmentname != null">departmentName = #{departmentname},</if>
+            <if test="worktime != null">worktime = #{worktime},</if>
+            <if test="enterdptdate != null">enterdptdate = #{enterdptdate},</if>
+            <if test="post != null">post = #{post},</if>
+            <if test="political != null">political = #{political},</if>
+        </trim>
+        where staffID = #{staffid}
+    </update>
+
+    <delete id="deleteRenshiINFOByStaffid" parameterType="Long">
+        delete from renshiINFO where staffID = #{staffid}
+    </delete>
+
+    <delete id="deleteRenshiINFOByStaffids" parameterType="String">
+        delete from renshiINFO where staffID in 
+        <foreach item="staffid" collection="array" open="(" separator="," close=")">
+            #{staffid}
+        </foreach>
+    </delete>
+</mapper>

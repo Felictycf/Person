@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.HbkjStudentMapper">
+    
+    <resultMap type="HbkjStudent" id="HbkjStudentResult">
+        <result property="id"    column="id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="emoId"    column="emo_id"    />
+        <result property="name"    column="name"    />
+        <result property="studentSay"    column="student_say"    />
+        <result property="studentStatus"    column="student_Status"    />
+        <result property="studentLife"    column="student_life"    />
+    </resultMap>
+
+    <sql id="selectHbkjStudentVo">
+        select id, student_id, emo_id, name, student_say, student_Status, student_life from hbkj_student
+    </sql>
+
+    <select id="selectHbkjStudentList" parameterType="HbkjStudent" resultMap="HbkjStudentResult">
+        <include refid="selectHbkjStudentVo"/>
+        <where>  
+            <if test="studentId != null "> and student_id = #{studentId}</if>
+            <if test="emoId != null "> and emo_id = #{emoId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="studentSay != null  and studentSay != ''"> and student_say = #{studentSay}</if>
+            <if test="studentStatus != null  and studentStatus != ''"> and student_Status = #{studentStatus}</if>
+            <if test="studentLife != null  and studentLife != ''"> and student_life = #{studentLife}</if>
+        </where>
+    </select>
+    
+    <select id="selectHbkjStudentById" parameterType="Long" resultMap="HbkjStudentResult">
+        <include refid="selectHbkjStudentVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertHbkjStudent" parameterType="HbkjStudent" useGeneratedKeys="true" keyProperty="id">
+        insert into hbkj_student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">student_id,</if>
+            <if test="emoId != null">emo_id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="studentSay != null and studentSay != ''">student_say,</if>
+            <if test="studentStatus != null and studentStatus != ''">student_Status,</if>
+            <if test="studentLife != null and studentLife != ''">student_life,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">#{studentId},</if>
+            <if test="emoId != null">#{emoId},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="studentSay != null and studentSay != ''">#{studentSay},</if>
+            <if test="studentStatus != null and studentStatus != ''">#{studentStatus},</if>
+            <if test="studentLife != null and studentLife != ''">#{studentLife},</if>
+         </trim>
+    </insert>
+
+    <update id="updateHbkjStudent" parameterType="HbkjStudent">
+        update hbkj_student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="emoId != null">emo_id = #{emoId},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="studentSay != null and studentSay != ''">student_say = #{studentSay},</if>
+            <if test="studentStatus != null and studentStatus != ''">student_Status = #{studentStatus},</if>
+            <if test="studentLife != null and studentLife != ''">student_life = #{studentLife},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteHbkjStudentById" parameterType="Long">
+        delete from hbkj_student where id = #{id}
+    </delete>
+
+    <delete id="deleteHbkjStudentByIds" parameterType="String">
+        delete from hbkj_student where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TongjiMapper">
+    
+    <resultMap type="Tongji" id="TongjiResult">
+        <result property="id"    column="id"    />
+        <result property="sum"    column="sum"    />
+        <result property="tongji"    column="tongji"    />
+        <result property="kongque"    column="kongque"    />
+    </resultMap>
+
+    <sql id="selectTongjiVo">
+        select id, sum, tongji, kongque from tongji
+    </sql>
+
+    <select id="selectTongjiList" parameterType="Tongji" resultMap="TongjiResult">
+        <include refid="selectTongjiVo"/>
+        <where>  
+            <if test="sum != null  and sum != ''"> and sum = #{sum}</if>
+            <if test="tongji != null  and tongji != ''"> and tongji = #{tongji}</if>
+            <if test="kongque != null  and kongque != ''"> and kongque = #{kongque}</if>
+        </where>
+    </select>
+    
+    <select id="selectTongjiById" parameterType="Long" resultMap="TongjiResult">
+        <include refid="selectTongjiVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTongji" parameterType="Tongji" useGeneratedKeys="true" keyProperty="id">
+        insert into tongji
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sum != null">sum,</if>
+            <if test="tongji != null">tongji,</if>
+            <if test="kongque != null">kongque,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sum != null">#{sum},</if>
+            <if test="tongji != null">#{tongji},</if>
+            <if test="kongque != null">#{kongque},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTongji" parameterType="Tongji">
+        update tongji
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sum != null">sum = #{sum},</if>
+            <if test="tongji != null">tongji = #{tongji},</if>
+            <if test="kongque != null">kongque = #{kongque},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTongjiById" parameterType="Long">
+        delete from tongji where id = #{id}
+    </delete>
+
+    <delete id="deleteTongjiByIds" parameterType="String">
+        delete from tongji where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

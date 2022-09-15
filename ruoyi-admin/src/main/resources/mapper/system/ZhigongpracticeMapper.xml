@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ZhigongpracticeMapper">
+    
+    <resultMap type="Zhigongpractice" id="ZhigongpracticeResult">
+        <result property="staffid"    column="staffID"    />
+        <result property="trainingstart"    column="trainingstart"    />
+        <result property="trainingend"    column="trainingend"    />
+        <result property="trainingcontent"    column="trainingcontent"    />
+        <result property="trainer"    column="trainer"    />
+    </resultMap>
+
+    <sql id="selectZhigongpracticeVo">
+        select staffID, trainingstart, trainingend, trainingcontent, trainer from zhigongpractice
+    </sql>
+
+    <select id="selectZhigongpracticeList" parameterType="Zhigongpractice" resultMap="ZhigongpracticeResult">
+        <include refid="selectZhigongpracticeVo"/>
+        <where>  
+            <if test="trainingstart != null "> and trainingstart = #{trainingstart}</if>
+            <if test="trainingend != null "> and trainingend = #{trainingend}</if>
+            <if test="trainingcontent != null  and trainingcontent != ''"> and trainingcontent = #{trainingcontent}</if>
+            <if test="trainer != null  and trainer != ''"> and trainer = #{trainer}</if>
+        </where>
+    </select>
+    
+    <select id="selectZhigongpracticeByStaffid" parameterType="String" resultMap="ZhigongpracticeResult">
+        <include refid="selectZhigongpracticeVo"/>
+        where staffID = #{staffid}
+    </select>
+        
+    <insert id="insertZhigongpractice" parameterType="Zhigongpractice">
+        insert into zhigongpractice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="staffid != null">staffID,</if>
+            <if test="trainingstart != null">trainingstart,</if>
+            <if test="trainingend != null">trainingend,</if>
+            <if test="trainingcontent != null">trainingcontent,</if>
+            <if test="trainer != null">trainer,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="staffid != null">#{staffid},</if>
+            <if test="trainingstart != null">#{trainingstart},</if>
+            <if test="trainingend != null">#{trainingend},</if>
+            <if test="trainingcontent != null">#{trainingcontent},</if>
+            <if test="trainer != null">#{trainer},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZhigongpractice" parameterType="Zhigongpractice">
+        update zhigongpractice
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="trainingstart != null">trainingstart = #{trainingstart},</if>
+            <if test="trainingend != null">trainingend = #{trainingend},</if>
+            <if test="trainingcontent != null">trainingcontent = #{trainingcontent},</if>
+            <if test="trainer != null">trainer = #{trainer},</if>
+        </trim>
+        where staffID = #{staffid}
+    </update>
+
+    <delete id="deleteZhigongpracticeByStaffid" parameterType="String">
+        delete from zhigongpractice where staffID = #{staffid}
+    </delete>
+
+    <delete id="deleteZhigongpracticeByStaffids" parameterType="String">
+        delete from zhigongpractice where staffID in 
+        <foreach item="staffid" collection="array" open="(" separator="," close=")">
+            #{staffid}
+        </foreach>
+    </delete>
+</mapper>
